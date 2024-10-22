@@ -9997,7 +9997,7 @@ module.exports = function () {
         }
     };
 };
- // Misspelled 
+ // Misspelled
 
 /***/ }),
 
@@ -12683,7 +12683,7 @@ exports.validate = function (xmlData, options) {
     // check for byte order mark (BOM)
     xmlData = xmlData.substr(1);
   }
-  
+
   for (let i = 0; i < xmlData.length; i++) {
 
     if (xmlData[i] === '<' && xmlData[i+1] === '?') {
@@ -12695,7 +12695,7 @@ exports.validate = function (xmlData, options) {
       //read until you reach to '>' avoiding any '>' in attribute value
       let tagStartPos = i;
       i++;
-      
+
       if (xmlData[i] === '!') {
         i = readCommentAndCDATA(xmlData, i);
         continue;
@@ -13269,12 +13269,12 @@ Builder.prototype.buildObjectNode = function(val, key, attrStr, level) {
 
     let tagEndExp = '</' + key + this.tagEndChar;
     let piClosingChar = "";
-    
+
     if(key[0] === "?") {
       piClosingChar = "?";
       tagEndExp = "";
     }
-  
+
     // attrStr is an empty string in case the attribute came as undefined or null
     if ((attrStr || attrStr === '') && val.indexOf('<') === -1) {
       return ( this.indentate(level) + '<' +  key + attrStr + piClosingChar + '>' + val + tagEndExp );
@@ -13319,11 +13319,11 @@ Builder.prototype.buildTextValNode = function(val, key, attrStr, level) {
   }else if (this.options.commentPropName !== false && key === this.options.commentPropName) {
     return this.indentate(level) + `<!--${val}-->` +  this.newLine;
   }else if(key[0] === "?") {//PI tag
-    return  this.indentate(level) + '<' + key + attrStr+ '?' + this.tagEndChar; 
+    return  this.indentate(level) + '<' + key + attrStr+ '?' + this.tagEndChar;
   }else{
     let textValue = this.options.tagValueProcessor(key, val);
     textValue = this.replaceEntitiesValue(textValue);
-  
+
     if( textValue === ''){
       return this.indentate(level) + '<' + key + attrStr + this.closeTag(key) + this.tagEndChar;
     }else{
@@ -13367,10 +13367,10 @@ module.exports = Builder;
 const EOL = "\n";
 
 /**
- * 
- * @param {array} jArray 
- * @param {any} options 
- * @returns 
+ *
+ * @param {array} jArray
+ * @param {any} options
+ * @returns
  */
 function toXml(jArray, options) {
     let indentation = "";
@@ -13510,7 +13510,7 @@ const util = __nccwpck_require__(8280);
 
 //TODO: handle comments
 function readDocType(xmlData, i){
-    
+
     const entities = {};
     if( xmlData[i + 3] === 'O' &&
          xmlData[i + 4] === 'C' &&
@@ -13518,7 +13518,7 @@ function readDocType(xmlData, i){
          xmlData[i + 6] === 'Y' &&
          xmlData[i + 7] === 'P' &&
          xmlData[i + 8] === 'E')
-    {    
+    {
         i = i+9;
         let angleBracketsCount = 1;
         let hasBody = false, comment = false;
@@ -13526,7 +13526,7 @@ function readDocType(xmlData, i){
         for(;i<xmlData.length;i++){
             if (xmlData[i] === '<' && !comment) { //Determine the tag type
                 if( hasBody && isEntity(xmlData, i)){
-                    i += 7; 
+                    i += 7;
                     [entityName, val,i] = readEntityExp(xmlData,i+1);
                     if(val.indexOf("&") === -1) //Parameter entities are not supported
                         entities[ validateEntityName(entityName) ] = {
@@ -13578,12 +13578,12 @@ function readEntityExp(xmlData,i){
 
     //Internal entities are supported
     //    <!ENTITY entityname "replacement text">
-    
+
     //read EntityName
     let entityName = "";
     for (; i < xmlData.length && (xmlData[i] !== "'" && xmlData[i] !== '"' ); i++) {
         // if(xmlData[i] === " ") continue;
-        // else 
+        // else
         entityName += xmlData[i];
     }
     entityName = entityName.trim();
@@ -13706,7 +13706,7 @@ const defaultOptions = {
     },
     // skipEmptyListItem: false
 };
-   
+
 const buildOptions = function(options) {
     return Object.assign({}, defaultOptions, options);
 };
@@ -13803,7 +13803,7 @@ function parseTextData(val, tagName, jPath, dontTrim, hasAttributes, isLeafNode,
     }
     if(val.length > 0){
       if(!escapeEntities) val = this.replaceEntitiesValue(val);
-      
+
       const newval = this.options.tagValueProcessor(tagName, val, jPath, hasAttributes, isLeafNode);
       if(newval === null || newval === undefined){
         //don't parse
@@ -13953,10 +13953,10 @@ const parseXml = function(xmlData) {
         if( (this.options.ignoreDeclaration && tagData.tagName === "?xml") || this.options.ignorePiTags){
 
         }else{
-  
+
           const childNode = new xmlNode(tagData.tagName);
           childNode.add(this.options.textNodeName, "");
-          
+
           if(tagData.tagName !== tagData.tagExp && tagData.attrExpPresent){
             childNode[":@"] = this.buildAttributesMap(tagData.tagExp, jPath, tagData.tagName);
           }
@@ -13995,7 +13995,7 @@ const parseXml = function(xmlData) {
         }else{
           currentNode.add(this.options.textNodeName, val);
         }
-        
+
         i = closeIndex + 2;
       }else {//Opening tag
         let result = readTagExp(xmlData,i, this.options.removeNSPrefix);
@@ -14008,7 +14008,7 @@ const parseXml = function(xmlData) {
         if (this.options.transformTagName) {
           tagName = this.options.transformTagName(tagName);
         }
-        
+
         //save text as child node
         if (currentNode && textData) {
           if(currentNode.tagname !== '!xml'){
@@ -14052,10 +14052,10 @@ const parseXml = function(xmlData) {
           if(tagContent) {
             tagContent = this.parseTextData(tagContent, tagName, jPath, true, attrExpPresent, true, true);
           }
-          
+
           jPath = jPath.substr(0, jPath.lastIndexOf("."));
           childNode.add(this.options.textNodeName, tagContent);
-          
+
           this.addChild(currentNode, childNode, jPath)
         }else{
   //selfClosing tag
@@ -14067,7 +14067,7 @@ const parseXml = function(xmlData) {
             }else{
               tagExp = tagExp.substr(0, tagExp.length - 1);
             }
-            
+
             if(this.options.transformTagName) {
               tagName = this.options.transformTagName(tagName);
             }
@@ -14083,7 +14083,7 @@ const parseXml = function(xmlData) {
           else{
             const childNode = new xmlNode( tagName);
             this.tagsNodeStack.push(currentNode);
-            
+
             if(tagName !== tagExp && attrExpPresent){
               childNode[":@"] = this.buildAttributesMap(tagExp, jPath, tagName);
             }
@@ -14136,7 +14136,7 @@ const replaceEntitiesValue = function(val){
 function saveTextToParentTag(textData, currentNode, jPath, isLeafNode) {
   if (textData) { //store previously collected data as textNode
     if(isLeafNode === undefined) isLeafNode = Object.keys(currentNode.child).length === 0
-    
+
     textData = this.parseTextData(textData,
       currentNode.tagname,
       jPath,
@@ -14153,10 +14153,10 @@ function saveTextToParentTag(textData, currentNode, jPath, isLeafNode) {
 
 //TODO: use jPath to simplify the logic
 /**
- * 
- * @param {string[]} stopNodes 
+ *
+ * @param {string[]} stopNodes
  * @param {string} jPath
- * @param {string} currentTagName 
+ * @param {string} currentTagName
  */
 function isItStopNode(stopNodes, jPath, currentTagName){
   const allNodesExp = "*." + currentTagName;
@@ -14169,9 +14169,9 @@ function isItStopNode(stopNodes, jPath, currentTagName){
 
 /**
  * Returns the tag Expression and where it is ending handling single-double quotes situation
- * @param {string} xmlData 
+ * @param {string} xmlData
  * @param {number} i starting index
- * @returns 
+ * @returns
  */
 function tagExpWithClosingIndex(xmlData, i, closingChar = ">"){
   let attrBoundary;
@@ -14244,9 +14244,9 @@ function readTagExp(xmlData,i, removeNSPrefix, closingChar = ">"){
 }
 /**
  * find paired tag for a stop node
- * @param {string} xmlData 
- * @param {string} tagName 
- * @param {number} i 
+ * @param {string} xmlData
+ * @param {string} tagName
+ * @param {number} i
  */
 function readStopNodeData(xmlData, tagName, i){
   const startIndex = i;
@@ -14254,7 +14254,7 @@ function readStopNodeData(xmlData, tagName, i){
   let openTagCount = 1;
 
   for (; i < xmlData.length; i++) {
-    if( xmlData[i] === "<"){ 
+    if( xmlData[i] === "<"){
       if (xmlData[i+1] === "/") {//close tag
           const closeIndex = findClosingIndex(xmlData, ">", i, `${tagName} is not closed`);
           let closeTagName = xmlData.substring(i+2,closeIndex).trim();
@@ -14268,13 +14268,13 @@ function readStopNodeData(xmlData, tagName, i){
             }
           }
           i=closeIndex;
-        } else if(xmlData[i+1] === '?') { 
+        } else if(xmlData[i+1] === '?') {
           const closeIndex = findClosingIndex(xmlData, "?>", i+1, "StopNode is not closed.")
           i=closeIndex;
-        } else if(xmlData.substr(i + 1, 3) === '!--') { 
+        } else if(xmlData.substr(i + 1, 3) === '!--') {
           const closeIndex = findClosingIndex(xmlData, "-->", i+3, "StopNode is not closed.")
           i=closeIndex;
-        } else if(xmlData.substr(i + 1, 2) === '![') { 
+        } else if(xmlData.substr(i + 1, 2) === '![') {
           const closeIndex = findClosingIndex(xmlData, "]]>", i, "StopNode is not closed.") - 2;
           i=closeIndex;
         } else {
@@ -14323,16 +14323,16 @@ const { prettify} = __nccwpck_require__(2882);
 const validator = __nccwpck_require__(1739);
 
 class XMLParser{
-    
+
     constructor(options){
         this.externalEntities = {};
         this.options = buildOptions(options);
-        
+
     }
     /**
-     * Parse XML dats to JS object 
-     * @param {string|Buffer} xmlData 
-     * @param {boolean|Object} validationOption 
+     * Parse XML dats to JS object
+     * @param {string|Buffer} xmlData
+     * @param {boolean|Object} validationOption
      */
     parse(xmlData,validationOption){
         if(typeof xmlData === "string"){
@@ -14343,7 +14343,7 @@ class XMLParser{
         }
         if( validationOption){
             if(validationOption === true) validationOption = {}; //validate with default options
-            
+
             const result = validator.validate(xmlData, validationOption);
             if (result !== true) {
               throw Error( `${result.err.msg}:${result.err.line}:${result.err.col}` )
@@ -14358,8 +14358,8 @@ class XMLParser{
 
     /**
      * Add Entity which is not by default supported by this library
-     * @param {string} key 
-     * @param {string} value 
+     * @param {string} key
+     * @param {string} value
      */
     addEntity(key, value){
         if(value.indexOf("&") !== -1){
@@ -14384,20 +14384,20 @@ module.exports = XMLParser;
 
 
 /**
- * 
- * @param {array} node 
- * @param {any} options 
- * @returns 
+ *
+ * @param {array} node
+ * @param {any} options
+ * @returns
  */
 function prettify(node, options){
   return compress( node, options);
 }
 
 /**
- * 
- * @param {array} arr 
- * @param {object} options 
- * @param {string} jPath 
+ *
+ * @param {array} arr
+ * @param {object} options
+ * @param {string} jPath
  * @returns object
  */
 function compress(arr, options, jPath){
@@ -14416,7 +14416,7 @@ function compress(arr, options, jPath){
     }else if(property === undefined){
       continue;
     }else if(tagObj[property]){
-      
+
       let val = compress(tagObj[property], options, newJpath);
       const isLeaf = isLeafTag(val, options);
 
@@ -14444,7 +14444,7 @@ function compress(arr, options, jPath){
         }
       }
     }
-    
+
   }
   // if(text && text.length > 0) compressedObj[options.textNodeName] = text;
   if(typeof text === "string"){
@@ -14479,7 +14479,7 @@ function assignAttributes(obj, attrMap, jpath, options){
 function isLeafTag(obj, options){
   const { textNodeName } = options;
   const propCount = Object.keys(obj).length;
-  
+
   if (propCount === 0) {
     return true;
   }
@@ -19160,7 +19160,7 @@ function parsePlistXML (node) {
     if (counter % 2 === 1) {
       new_obj[key] = '';
     }
-    
+
     return new_obj;
 
   } else if (node.nodeName === 'array') {
@@ -19275,7 +19275,7 @@ if (!Number.parseFloat && window.parseFloat) {
     Number.parseFloat = window.parseFloat;
 }
 
-  
+
 const consider = {
     hex :  true,
     leadingZeros: true,
@@ -19294,7 +19294,7 @@ function toNumber(str, options = {}){
 
     options = Object.assign({}, consider, options );
     if(!str || typeof str !== "string" ) return str;
-    
+
     let trimmedStr  = str.trim();
     // if(trimmedStr === "0.0") return 0;
     // else if(trimmedStr === "+0.0") return 0;
@@ -19315,7 +19315,7 @@ function toNumber(str, options = {}){
             const leadingZeros = match[2];
             let numTrimmedByZeros = trimZeros(match[3]); //complete num without leading zeros
             //trim ending zeros for floating number
-            
+
             const eNotation = match[4] || match[6];
             if(!options.leadingZeros && leadingZeros.length > 0 && sign && trimmedStr[2] !== ".") return str; //-0123
             else if(!options.leadingZeros && leadingZeros.length > 0 && !sign && trimmedStr[1] !== ".") return str; //0123
@@ -19332,7 +19332,7 @@ function toNumber(str, options = {}){
                     // const decimalPart = match[5].substr(1);
                     // const intPart = trimmedStr.substr(0,trimmedStr.indexOf("."));
 
-                    
+
                     // const p = numStr.indexOf(".");
                     // const givenIntPart = numStr.substr(0,p);
                     // const givenDecPart = numStr.substr(p+1);
@@ -19341,7 +19341,7 @@ function toNumber(str, options = {}){
                     else if( sign && numStr === "-"+numTrimmedByZeros) return num;
                     else return str;
                 }
-                
+
                 if(leadingZeros){
                     // if(numTrimmedByZeros === numStr){
                     //     if(options.leadingZeros) return num;
@@ -19362,7 +19362,7 @@ function toNumber(str, options = {}){
                 return str;
             }
             // else if(!eNotation && trimmedStr && trimmedStr !== Number(trimmedStr) ) return str;
-            
+
         }else{ //non-numeric string
             return str;
         }
@@ -19370,9 +19370,9 @@ function toNumber(str, options = {}){
 }
 
 /**
- * 
+ *
  * @param {string} numStr without leading zeros
- * @returns 
+ * @returns
  */
 function trimZeros(numStr){
     if(numStr && numStr.indexOf(".") !== -1){//float
@@ -47731,7 +47731,7 @@ exports["default"] = _default;
         return this.options.writer.attribute(this, this.options.writer.filterOptions(options));
       }
 
-      
+
       // Returns debug string for this node
       debugInfo(name) {
         name = name || this.name;
@@ -47884,7 +47884,7 @@ exports["default"] = _default;
         this.value = '';
       }
 
-      
+
       // Creates and returns a deep clone of `this`
       clone() {
         return Object.create(this);
@@ -48133,9 +48133,9 @@ exports["default"] = _default;
 
     // `feature` package name of the feature to test. In Level 1, the
     //           legal values are "HTML" and "XML" (case-insensitive).
-    // `version` version number of the package name to test. 
-    //           In Level 1, this is the string "1.0". If the version is 
-    //           not specified, supporting any version of the feature will 
+    // `version` version number of the package name to test.
+    //           In Level 1, this is the string "1.0". If the version is
+    //           not specified, supporting any version of the feature will
     //           cause the method to return true.
     hasFeature(feature, version) {
       return true;
@@ -48166,7 +48166,7 @@ exports["default"] = _default;
       throw new Error("This DOM method is not implemented.");
     }
 
-    // Returns a specialized object which implements the specialized APIs 
+    // Returns a specialized object which implements the specialized APIs
     // of the specified feature and version.
 
     // `feature` name of the feature requested.
@@ -49635,14 +49635,14 @@ exports["default"] = _default;
         } else {
           this.writerOptions.state = WriterState.OpenTag;
           chunk = this.writer.indent(node, this.writerOptions, this.currentLevel) + '<!DOCTYPE ' + node.rootNodeName;
-          
+
           // external identifier
           if (node.pubID && node.sysID) {
             chunk += ' PUBLIC "' + node.pubID + '" "' + node.sysID + '"';
           } else if (node.sysID) {
             chunk += ' SYSTEM "' + node.sysID + '"';
           }
-          
+
           // internal subset
           if (node.children) {
             chunk += ' [';
@@ -49813,7 +49813,7 @@ exports["default"] = _default;
   module.exports = XMLDummy = class XMLDummy extends XMLNode {
     // Initializes a new instance of `XMLDummy`
 
-    // `XMLDummy` is a special node representing a node with 
+    // `XMLDummy` is a special node representing a node with
     // a null value. Dummy nodes are created while recursively
     // building the XML tree. Simply skipping null values doesn't
     // work because that would break the recursive chain.
@@ -50252,7 +50252,7 @@ exports["default"] = _default;
 
     };
 
-    
+
     // DOM level 1
     Object.defineProperty(XMLNamedNodeMap.prototype, 'length', {
       get: function() {
@@ -50340,7 +50340,7 @@ exports["default"] = _default;
         }
       }
 
-      
+
       // Sets the parent node of this node and its children recursively
 
       // `parent` the parent node
@@ -50412,7 +50412,7 @@ exports["default"] = _default;
             // skip null and undefined nodes
             } else if (!this.options.keepNullNodes && (val == null)) {
               lastChild = this.dummy();
-            
+
             // expand list by creating child nodes
             } else if (!this.options.separateArrayItems && Array.isArray(val)) {
               for (k = 0, len1 = val.length; k < len1; k++) {
@@ -50421,7 +50421,7 @@ exports["default"] = _default;
                 childNode[key] = item;
                 lastChild = this.element(childNode);
               }
-            
+
             // expand child nodes under parent
             } else if (isObject(val)) {
               // if the key is #text expand child nodes under this node to support mixed content
@@ -50432,7 +50432,7 @@ exports["default"] = _default;
                 lastChild.element(val);
               }
             } else {
-              
+
               // text node
               lastChild = this.element(key, val);
             }
@@ -50484,10 +50484,10 @@ exports["default"] = _default;
             // temporarily remove children starting *with* refChild
             i = children.indexOf(refChild);
             removed = children.splice(i);
-            
+
             // add the new child
             children.push(newChild);
-            
+
             // add back removed children after new child
             Array.prototype.push.apply(children, removed);
           } else {
@@ -50498,14 +50498,14 @@ exports["default"] = _default;
           if (this.isRoot) {
             throw new Error("Cannot insert elements at root level. " + this.debugInfo(name));
           }
-          
+
           // temporarily remove children starting *with* this
           i = this.parent.children.indexOf(this);
           removed = this.parent.children.splice(i);
-          
+
           // add the new child
           child = this.parent.element(name, attributes, text);
-          
+
           // add back removed children after new child
           Array.prototype.push.apply(this.parent.children, removed);
           return child;
@@ -50522,14 +50522,14 @@ exports["default"] = _default;
         if (this.isRoot) {
           throw new Error("Cannot insert elements at root level. " + this.debugInfo(name));
         }
-        
+
         // temporarily remove children starting *after* this
         i = this.parent.children.indexOf(this);
         removed = this.parent.children.splice(i + 1);
-        
+
         // add the new child
         child = this.parent.element(name, attributes, text);
-        
+
         // add back removed children after new child
         Array.prototype.push.apply(this.parent.children, removed);
         return child;
@@ -50864,7 +50864,7 @@ exports["default"] = _default;
         return this;
       }
 
-      
+
       // Returns debug string for this node
       debugInfo(name) {
         var ref1, ref2;
@@ -51085,7 +51085,7 @@ exports["default"] = _default;
         return other === this || this.isDescendant(other);
       }
 
-      // An object A is called a descendant of an object B, if either A is 
+      // An object A is called a descendant of an object B, if either A is
       // a child of B or A is a child of an object C that is a descendant of B.
       isDescendant(node) {
         var child, isDescendantChild, j, len, ref1;
@@ -51109,7 +51109,7 @@ exports["default"] = _default;
         return node.isDescendant(this);
       }
 
-      // An object A is preceding an object B if A and B are in the 
+      // An object A is preceding an object B if A and B are in the
       // same tree and A comes before B in tree order.
       isPreceding(node) {
         var nodePos, thisPos;
@@ -51122,7 +51122,7 @@ exports["default"] = _default;
         }
       }
 
-      // An object A is folllowing an object B if A and B are in the 
+      // An object A is folllowing an object B if A and B are in the
       // same tree and A comes after B in tree order.
       isFollowing(node) {
         var nodePos, thisPos;
@@ -51154,7 +51154,7 @@ exports["default"] = _default;
         }
       }
 
-      
+
       // Depth-first preorder traversal through the XML tree
       foreachTreeNode(node, func) {
         var child, j, len, ref1, res;
@@ -51479,7 +51479,7 @@ exports["default"] = _default;
     document(doc, options) {
       var child, i, j, k, len1, len2, ref, ref1, results;
       ref = doc.children;
-      // set a flag so that we don't insert a newline after the last root level node 
+      // set a flag so that we don't insert a newline after the last root level node
       for (i = j = 0, len1 = ref.length; j < len1; i = ++j) {
         child = ref[i];
         child.isLastRootNode = i === doc.children.length - 1;
@@ -56371,7 +56371,7 @@ class Document {
             replacer = undefined;
         }
         const { aliasDuplicateObjects, anchorPrefix, flow, keepUndefined, onTagObj, tag } = options ?? {};
-        const { onAnchor, setAnchors, sourceObjects } = anchors.createNodeAnchors(this, 
+        const { onAnchor, setAnchors, sourceObjects } = anchors.createNodeAnchors(this,
         // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         anchorPrefix || 'a');
         const ctx = {
@@ -63461,7 +63461,7 @@ return new B(c,{type:"multipart/form-data; boundary="+b})}
 /************************************************************************/
 /******/ // The module cache
 /******/ var __webpack_module_cache__ = {};
-/******/ 
+/******/
 /******/ // The require function
 /******/ function __nccwpck_require__(moduleId) {
 /******/ 	// Check if module is in cache
@@ -63475,7 +63475,7 @@ return new B(c,{type:"multipart/form-data; boundary="+b})}
 /******/ 		// no module.loaded needed
 /******/ 		exports: {}
 /******/ 	};
-/******/ 
+/******/
 /******/ 	// Execute the module function
 /******/ 	var threw = true;
 /******/ 	try {
@@ -63484,14 +63484,14 @@ return new B(c,{type:"multipart/form-data; boundary="+b})}
 /******/ 	} finally {
 /******/ 		if(threw) delete __webpack_module_cache__[moduleId];
 /******/ 	}
-/******/ 
+/******/
 /******/ 	// Return the exports of the module
 /******/ 	return module.exports;
 /******/ }
-/******/ 
+/******/
 /******/ // expose the modules object (__webpack_modules__)
 /******/ __nccwpck_require__.m = __webpack_modules__;
-/******/ 
+/******/
 /************************************************************************/
 /******/ /* webpack/runtime/compat get default export */
 /******/ (() => {
@@ -63504,7 +63504,7 @@ return new B(c,{type:"multipart/form-data; boundary="+b})}
 /******/ 		return getter;
 /******/ 	};
 /******/ })();
-/******/ 
+/******/
 /******/ /* webpack/runtime/define property getters */
 /******/ (() => {
 /******/ 	// define getter functions for harmony exports
@@ -63516,7 +63516,7 @@ return new B(c,{type:"multipart/form-data; boundary="+b})}
 /******/ 		}
 /******/ 	};
 /******/ })();
-/******/ 
+/******/
 /******/ /* webpack/runtime/ensure chunk */
 /******/ (() => {
 /******/ 	__nccwpck_require__.f = {};
@@ -63529,7 +63529,7 @@ return new B(c,{type:"multipart/form-data; boundary="+b})}
 /******/ 		}, []));
 /******/ 	};
 /******/ })();
-/******/ 
+/******/
 /******/ /* webpack/runtime/get javascript chunk filename */
 /******/ (() => {
 /******/ 	// This function allow to reference async chunks
@@ -63538,12 +63538,12 @@ return new B(c,{type:"multipart/form-data; boundary="+b})}
 /******/ 		return "" + chunkId + ".index.js";
 /******/ 	};
 /******/ })();
-/******/ 
+/******/
 /******/ /* webpack/runtime/hasOwnProperty shorthand */
 /******/ (() => {
 /******/ 	__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
 /******/ })();
-/******/ 
+/******/
 /******/ /* webpack/runtime/make namespace object */
 /******/ (() => {
 /******/ 	// define __esModule on exports
@@ -63554,22 +63554,22 @@ return new B(c,{type:"multipart/form-data; boundary="+b})}
 /******/ 		Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 	};
 /******/ })();
-/******/ 
+/******/
 /******/ /* webpack/runtime/compat */
-/******/ 
+/******/
 /******/ if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = new URL('.', import.meta.url).pathname.slice(import.meta.url.match(/^file:\/\/\/\w:/) ? 1 : 0, -1) + "/";
-/******/ 
+/******/
 /******/ /* webpack/runtime/import chunk loading */
 /******/ (() => {
 /******/ 	// no baseURI
-/******/ 	
+/******/
 /******/ 	// object to store loaded and loading chunks
 /******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 	// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 	var installedChunks = {
 /******/ 		179: 0
 /******/ 	};
-/******/ 	
+/******/
 /******/ 	var installChunk = (data) => {
 /******/ 		var {ids, modules, runtime} = data;
 /******/ 		// add "modules" to the modules object,
@@ -63588,14 +63588,14 @@ return new B(c,{type:"multipart/form-data; boundary="+b})}
 /******/ 			}
 /******/ 			installedChunks[ids[i]] = 0;
 /******/ 		}
-/******/ 	
+/******/
 /******/ 	}
-/******/ 	
+/******/
 /******/ 	__nccwpck_require__.f.j = (chunkId, promises) => {
 /******/ 			// import() chunk loading for javascript
 /******/ 			var installedChunkData = __nccwpck_require__.o(installedChunks, chunkId) ? installedChunks[chunkId] : undefined;
 /******/ 			if(installedChunkData !== 0) { // 0 means "already installed".
-/******/ 	
+/******/
 /******/ 				// a Promise means "currently loading".
 /******/ 				if(installedChunkData) {
 /******/ 					promises.push(installedChunkData[1]);
@@ -63612,12 +63612,12 @@ return new B(c,{type:"multipart/form-data; boundary="+b})}
 /******/ 				}
 /******/ 			}
 /******/ 	};
-/******/ 	
+/******/
 /******/ 	// no external install chunk
-/******/ 	
+/******/
 /******/ 	// no on chunks loaded
 /******/ })();
-/******/ 
+/******/
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
@@ -63986,7 +63986,7 @@ function decorator_createDecorator(
  * function name to the decorator (useful for debugging
  * and logging).
  */
-name, 
+name,
 /**
  * This function is called only once, when the decorator is
  * first evaluated at run-time. It can be used to set up a store,
@@ -68984,7 +68984,7 @@ ZodReadonly.create = (type, params) => {
         ...processCreateParams(params),
     });
 };
-const custom = (check, params = {}, 
+const custom = (check, params = {},
 /**
  * @deprecated
  *
@@ -69273,7 +69273,7 @@ const decodeMap = new Map([
 /**
  * Polyfill for `String.fromCodePoint`. It is used to create a string from a Unicode code point.
  */
-const fromCodePoint = 
+const fromCodePoint =
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition, node/no-unsupported-features/es-builtins
 (_a = String.fromCodePoint) !== null && _a !== void 0 ? _a : function (codePoint) {
     let output = "";
@@ -69382,7 +69382,7 @@ var decode_DecodingMode;
 class EntityDecoder {
     constructor(
     /** The tree used to decode entities. */
-    decodeTree, 
+    decodeTree,
     /**
      * The function that is called when a codepoint is decoded.
      *
@@ -69392,7 +69392,7 @@ class EntityDecoder {
      * @param codepoint The decoded codepoint.
      * @param consumed The number of bytes consumed by the decoder.
      */
-    emitCodePoint, 
+    emitCodePoint,
     /** An object that is used to produce errors. */
     errors) {
         this.decodeTree = decodeTree;
@@ -69705,7 +69705,7 @@ function getDecoder(decodeTree) {
         while ((offset = str.indexOf("&", offset)) >= 0) {
             ret += str.slice(lastIndex, offset);
             decoder.startEntity(decodeMode);
-            const len = decoder.write(str, 
+            const len = decoder.write(str,
             // Skip the "&"
             offset + 1);
             if (len < 0) {
@@ -69826,7 +69826,7 @@ const xmlCodeMap = new Map([
     [62, "&gt;"],
 ]);
 // For compatibility with node < 4, we wrap `codePointAt`
-const escape_getCodePoint = 
+const escape_getCodePoint =
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 String.prototype.codePointAt != null
     ? (str, index) => str.codePointAt(index)
@@ -74151,7 +74151,7 @@ class IgorSetup {
                     modules = ["ios"];
                     break;
                 case "linux":
-                    modules = ["android"];
+                    modules = ["android", "linux"];
                     break;
             }
         }
