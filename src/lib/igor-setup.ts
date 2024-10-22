@@ -350,7 +350,7 @@ export class IgorSetup {
     let requiredModules: (keyof RuntimeReceipt | string)[];
     switch (platformLower) {
       case "android":
-        requiredModules = ["android"];
+        requiredModules = ["android","linux", "linuxYYC"];
         break;
       case "windows":
         requiredModules = ["windows", "windowsYYC"];
