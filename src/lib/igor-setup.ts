@@ -179,7 +179,7 @@ export class IgorSetup {
           modules = ["ios"];
           break;
         case "linux":
-          modules = ["android"];
+          modules = ["android", "linux"];
           break;
       }
     }
